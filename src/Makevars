@@ -1,0 +1,4 @@
+CXX_STD = CXX11
+PKG_CXXFLAGS = -I/usr/local/opt/openssl/include -I/usr/local/include
+PKG_CPPFLAGS = -I/usr/local/opt/openssl/include -I/usr/local/include
+PKG_LIBS=-L/usr/local/opt/openssl/lib -L/usr/local/lib -lssl -lcrypto /usr/local/lib/libircclient.a
