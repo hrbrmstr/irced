@@ -1,4 +1,6 @@
 
+<img src="wingr.png" width="25%"/>
+
 ------------------------------------------------------------------------
 
 `irced` : \\ˈɜrkt\\
@@ -15,9 +17,11 @@ It's uses [`libircclient`](http://www.ulduzsoft.com/libircclient/index.html) whi
 
 Build systems such as 'Travic-CI' have many ways to notify users when jobs have completed including posting a message to an IRC channel. In similar form, there are many times when analyses or data cleaning/processing operations are long running tasks that operate in the background or on remote systems. Functions are provided to notify users of the status of these tasks via IRC.
 
+Eventually, it will be possible to make a complete IRC bot in R, but that's a future feature add.
+
 If you're looking to host your own IRC server, I've found [`ngircd`](https://ngircd.barton.de) to be compact and easy to install/administer.
 
-The API is is not set in stone as of yet so if you have any feature/API requests, please file an issue.
+The API is is not set in stone as of yet so if you have any feature/API requests, please file an issue. This also means the API may change radically and break stuff.
 
 Many thanks to @jeroenooms for his anticonf pattern/source.
 
@@ -25,7 +29,7 @@ The following functions are implemented:
 
 -   `add_nick`: Add nickname/user info
 -   `irced`: Putting the R into IRC
--   `irc_server`: Create an IRC server object
+-   `irc_connect`: Create an IRC server object
 -   `post_message`: Post an IRC message
 -   `set_channel`: Set channel info
 
@@ -35,7 +39,9 @@ The following functions are implemented:
 -   \[ \] Finish Windows port
 -   \[x\] Separate out IRC server connection bits from the message sending bits (to support piping)
 -   \[x\] Finish code for channel authentication
+-   \[X\] Finish code/docs for SASL authentication
 -   \[ \] Finish code for user authentication
+-   \[ \] Add code to support writing an IRC bot in R
 
 ### Installation
 
@@ -69,7 +75,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Sun Sep 25 11:14:50 2016"
+    ## [1] "Sun Sep 25 12:22:32 2016"
 
 ``` r
 test_dir("tests/")

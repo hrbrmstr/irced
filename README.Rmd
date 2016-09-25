@@ -1,6 +1,9 @@
 ---
 output: rmarkdown::github_document
 ---
+
+<img src="wingr.png" width="25%"/>
+
 ----------
 
 `irced` : \\ˈɜrkt\\ 
