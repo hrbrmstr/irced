@@ -15,7 +15,7 @@ set_channel(irc_obj, channel, password = NULL)
 Set channel info
 }
 \examples{
-irc_server("irc.rud.is") \%>\%
+irc_connect("irc.rud.is") \%>\%
   set_channel("#builds") \%>\%
   post_message("Finishing a build is important, but building is more important.")
 }

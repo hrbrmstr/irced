@@ -14,7 +14,13 @@ add_nick(irc_obj, nickname = "keryx", username = "keryx",
 
 \item{realname}{realname (default is "\code{keryx}")}
 
-\item{password}{auth password for user (NOTE: not implemented yet)}
+\item{password}{auth password for user \emph{(NOTE: not implemented yet)}.
+If your server requires \href{https://freenode.net/kb/answer/sasl}{SASL}
+authentication then specify this information in the call to
+\code{irc_connect()} as noted in the help for that function. Use this
+method for the \code{/msg NickServ IDENTIFY foo password} method of
+user authentication to IRC. Be wary of using any authentication
+scheme without an SSL connection to the IRC server.}
 }
 \description{
 You only need to use this function if you want to change the
@@ -22,7 +28,7 @@ nick/user/real names or need to authenticate the nick. The default
 nickmame (et al) is \href{https://www.britannica.com/topic/keryx}{keryx}.
 }
 \examples{
-irc_server("irc.rud.is") \%>\%
+irc_connect("irc.rud.is") \%>\%
   set_channel("#builds") \%>\%
   add_nick("nick", "nick", "nick") \%>\%
   post_message("Finishing a build is important, but building is more important.")

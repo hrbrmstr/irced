@@ -9,32 +9,36 @@ using namespace Rcpp;
 #include <chrono>
 #include <thread>
 
-std::string g_irc_server, g_server_password, g_channel, g_channel_password,
-            g_nickname, g_username, g_realname;
-
 CharacterVector g_message;
+bool g_verbose;
+
+std::string g_irc_server, g_server_password,
+            g_channel, g_channel_password,
+            g_nickname, g_username, g_realname;
 
 void dump_event(irc_session_t *session, const char *event, const char *origin,
                 const char **params, unsigned int count) {
 
-  char buf[512];
-  int cnt;
+  if (g_verbose) {
+    char buf[512];
+    int cnt;
 
-  buf[0] = '\0';
+    buf[0] = '\0';
 
-  for (cnt = 0; cnt < count; cnt++) {
-    if (cnt) strcat (buf, "|");
-    strcat (buf, params[cnt]);
+    for (cnt = 0; cnt < count; cnt++) {
+      if (cnt) strcat (buf, "|");
+      strcat (buf, params[cnt]);
+    }
+
+    Rcout << event << " : " << origin << " : " << buf << std::endl;
   }
-
-  // Rcout << event << " : " << buf << std::endl;
 
 }
 
 void event_channel(irc_session_t *session, const char *event, const char *origin,
                    const char **params, unsigned int count) {
 
-  // Rcout << event << " " << origin << " " << count << std::endl;
+  if (g_verbose) Rcout << event << " " << origin << " " << count << std::endl;
 
   if (std::string(params[1]) == "QUIT") {
     irc_cmd_quit(session, "FINISHED");
@@ -45,7 +49,7 @@ void event_channel(irc_session_t *session, const char *event, const char *origin
 void event_part (irc_session_t *session, const char *event, const char *origin,
                  const char **params, unsigned int count) {
 
-  // Rcout << event << " " << origin << " " << count << std::endl;
+  if (g_verbose) Rcout << event << " " << origin << " " << count << std::endl;
 
   if (std::string(origin) == g_nickname.c_str()) {
     irc_cmd_quit(session, 0);
@@ -56,7 +60,7 @@ void event_part (irc_session_t *session, const char *event, const char *origin,
 void event_join (irc_session_t *session, const char *event, const char *origin,
                  const char **params, unsigned int count) {
 
-  // Rcout << event << " " << origin << " " << count << std::endl;
+  if (g_verbose) Rcout << event << " " << origin << " " << count << std::endl;
 
   if (std::string(origin) == g_nickname.c_str()) {
 
@@ -73,7 +77,7 @@ void event_join (irc_session_t *session, const char *event, const char *origin,
 void event_connect (irc_session_t *session, const char *event, const char *origin,
                     const char **params, unsigned int count) {
 
-  // Rcout << event << " " << origin << " " << count << std::endl;
+  if (g_verbose) Rcout << event << " " << origin << " " << count << std::endl;
 
   irc_cmd_join(session, g_channel.c_str(),
                g_channel_password == "" ? g_channel_password.c_str() : 0);
@@ -83,9 +87,24 @@ void event_connect (irc_session_t *session, const char *event, const char *origi
 
 void event_numeric (irc_session_t *session, unsigned int event, const char *origin,
                     const char **params, unsigned int count) {
-  // Rcout << event << " " << origin << " " << count << std::endl;
-}
 
+  if (g_verbose) {
+
+    char buf[512];
+    int cnt;
+
+    buf[0] = '\0';
+
+    for (cnt = 0; cnt < count; cnt++) {
+      if (cnt) strcat (buf, "|");
+      strcat (buf, params[cnt]);
+    }
+
+    Rcout << event << " : " << origin << " : " << buf << std::endl;
+
+  }
+
+}
 
 // [[Rcpp::export]]
 void irc_notify_int(CharacterVector irc_server,
@@ -97,7 +116,8 @@ void irc_notify_int(CharacterVector irc_server,
                     bool ssl,
                     CharacterVector nickname,
                     CharacterVector username,
-                    CharacterVector realname) {
+                    CharacterVector realname,
+                    bool verbose) {
 
   irc_callbacks_t callbacks;
   irc_session_t *session;
@@ -112,6 +132,8 @@ void irc_notify_int(CharacterVector irc_server,
   g_nickname = nickname[0];
   g_username = username[0];
   g_realname = realname[0];
+
+  g_verbose = verbose;
 
   memset(&callbacks, 0, sizeof(callbacks));
 
@@ -138,6 +160,7 @@ void irc_notify_int(CharacterVector irc_server,
   irc_option_set(session, LIBIRC_OPTION_STRIPNICKS);
 
   if (ssl) {
+    if (g_verbose) Rcout << "Using SSL" << std::endl;
     g_irc_server = "#" + g_irc_server;
     irc_option_set(session, LIBIRC_OPTION_SSL_NO_VERIFY);
   }
@@ -146,12 +169,12 @@ void irc_notify_int(CharacterVector irc_server,
                   (g_server_password=="" ? 0 : g_server_password.c_str()),
                   g_nickname.c_str(), g_username.c_str(), g_realname.c_str())) {
   } else {
-    // Rcout << "Connected" << std::endl;
+    if (g_verbose) Rcout << "Connected" << std::endl;
     irc_run(session);
   }
 
-  // Rcout << "DONE" << std::endl;
+  if (g_verbose) Rcout << "DONE" << std::endl;
   irc_disconnect(session);
-  // Rcout << "CLOSED" << std::endl;
+  if (g_verbose) Rcout << "CLOSED" << std::endl;
 
 }

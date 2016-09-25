@@ -2,18 +2,24 @@
 #'
 #' @param host_or_ip IRC server FQDN or IP address
 #' @param port IRC server port
-#' @param password server password or \code{NULL}
+#' @param password server password or \code{NULL}. If you are required to
+#'     do \href{https://freenode.net/kb/answer/sasl}{SASL} authentication then
+#'     this should be "\code{nick}:\code{password}". Be wary of using any
+#'     authentication scheme without an SSL connection to the IRC server.
 #' @param use_ssl use secure connection to IRC server?
+#' @param verbose produce \emph{very} chatty IRC diagnostic messages?
 #' @export
 #' @examples
-#' irc_server("irc.rud.is") %>%
+#' irc_connect("irc.rud.is") %>%
 #'   set_channel("#builds") %>%
 #'   post_message("Finishing a build is important, but building is more important.")
-irc_server <- function(host_or_ip, port=6667, password=NULL, use_ssl=FALSE) {
+irc_connect <- function(host_or_ip, port=6667, password=NULL, use_ssl=FALSE,
+                       verbose=FALSE) {
   list(server=host_or_ip,
        port=port,
        server_password=password %||% "",
        use_ssl=use_ssl,
+       verbose=verbose,
        nickname="keryx",
        username="keryx",
        realname="keryx") -> irc_obj
@@ -30,10 +36,17 @@ irc_server <- function(host_or_ip, port=6667, password=NULL, use_ssl=FALSE) {
 #' @param nickname nickname (default is "\code{keryx}")
 #' @param username username (default is "\code{keryx}")
 #' @param realname realname (default is "\code{keryx}")
-#' @param password auth password for user (NOTE: not implemented yet)
+#' @param password auth password for user \emph{(NOTE: not implemented yet)}.
+#'     If your server requires \href{https://freenode.net/kb/answer/sasl}{SASL}
+#'     authentication then specify this information in the call to
+#'     \code{irc_connect()} as noted in the help for that function. Use this
+#'     method for the \code{/msg NickServ IDENTIFY foo password} method of
+#'     user authentication to IRC. Be wary of using any authentication
+#'     scheme without an SSL connection to the IRC server.
+#'
 #' @export
 #' @examples
-#' irc_server("irc.rud.is") %>%
+#' irc_connect("irc.rud.is") %>%
 #'   set_channel("#builds") %>%
 #'   add_nick("nick", "nick", "nick") %>%
 #'   post_message("Finishing a build is important, but building is more important.")
@@ -51,7 +64,7 @@ add_nick <- function(irc_obj, nickname="keryx", username="keryx",
 #' @param password channel password
 #' @export
 #' @examples
-#' irc_server("irc.rud.is") %>%
+#' irc_connect("irc.rud.is") %>%
 #'   set_channel("#builds") %>%
 #'   post_message("Finishing a build is important, but building is more important.")
 set_channel <- function(irc_obj, channel, password=NULL) {
@@ -68,10 +81,12 @@ set_channel <- function(irc_obj, channel, password=NULL) {
 #'       messages should not include these characters.
 #' @export
 #' @examples
-#' irc_server("irc.rud.is") %>%
+#' irc_connect("irc.rud.is") %>%
 #'   set_channel("#builds") %>%
 #'   post_message("Finishing a build is important, but building is more important.")
 post_message <- function(irc_obj, message) {
+
+  if (irc_obj$use_ssl) message("SSL connections may take much longer than normal ones.")
 
   irc_notify_int(
     irc_server=irc_obj$server,
@@ -83,7 +98,8 @@ post_message <- function(irc_obj, message) {
     realname=irc_obj$realname,
     channel=irc_obj$channel,
     channel_password=irc_obj$channel_password,
-    message=message
+    message=message,
+    verbose=irc_obj$verbose
   )
 
 }

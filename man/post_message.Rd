@@ -18,7 +18,7 @@ Due to inherent limitations in the IRC protocol, each message must not
       messages should not include these characters.
 }
 \examples{
-irc_server("irc.rud.is") \%>\%
+irc_connect("irc.rud.is") \%>\%
   set_channel("#builds") \%>\%
   post_message("Finishing a build is important, but building is more important.")
 }
