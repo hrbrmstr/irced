@@ -1,11 +1,16 @@
 Package: irced
 Type: Package
-Title: irced title goes here
+Title: Putting the R back in IRC
 Version: 0.1.0
 Date: 2016-09-23
-Author: Bob Rudis (bob@@rud.is)
+Author: Bob Rudis (bob@@rud.is), George Yunaev (libircclient)
 Maintainer: Bob Rudis <bob@rud.is>
-Description: irced description goes here
+Description: Build systems such as 'Travic-CI' have many ways to notify
+    users when jobs have completed including posting a message to an IRC
+    channel. In similar form, there are many times when analyses
+    or data cleaning/processing operations are long running tasks that
+    operate in the background or on remote systems. Functions are provided
+    to notify users of the status of these tasks via IRC.
 URL: http://gitlab.com/hrbrmstr/irced
 BugReports: https://gitlab.com/hrbrmstr/irced/issues
 SystemRequirements: C++11
