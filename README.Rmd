@@ -38,7 +38,7 @@ The following functions are implemented:
 - [x] Bundle in `libircclient`
 - [ ] Finish Windows port
 - [x] Separate out IRC server connection bits from the message sending bits (to support piping)
-- [ ] Add a way to provide user authentication
+- [ ] Finish code for user/channel authentication
 
 ### Installation
 

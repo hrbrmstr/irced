@@ -36,7 +36,7 @@ The following functions are implemented:
 -   \[x\] Bundle in `libircclient`
 -   \[ \] Finish Windows port
 -   \[x\] Separate out IRC server connection bits from the message sending bits (to support piping)
--   \[ \] Add a way to provide user authentication
+-   \[ \] Finish code for user/channel authentication
 
 ### Installation
 
@@ -70,7 +70,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Sun Sep 25 09:17:30 2016"
+    ## [1] "Sun Sep 25 09:21:14 2016"
 
 ``` r
 test_dir("tests/")
