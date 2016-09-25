@@ -9,7 +9,7 @@ using namespace Rcpp;
 #include <chrono>
 #include <thread>
 
-std::string g_irc_server, g_server_password, g_channel,
+std::string g_irc_server, g_server_password, g_channel, g_channel_password,
             g_nickname, g_username, g_realname;
 
 CharacterVector g_message;
@@ -30,7 +30,6 @@ void dump_event(irc_session_t *session, const char *event, const char *origin,
   // Rcout << event << " : " << buf << std::endl;
 
 }
-
 
 void event_channel(irc_session_t *session, const char *event, const char *origin,
                    const char **params, unsigned int count) {
@@ -76,7 +75,8 @@ void event_connect (irc_session_t *session, const char *event, const char *origi
 
   // Rcout << event << " " << origin << " " << count << std::endl;
 
-  irc_cmd_join(session, g_channel.c_str(), 0);
+  irc_cmd_join(session, g_channel.c_str(),
+               g_channel_password == "" ? g_channel_password.c_str() : 0);
   std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
 }
@@ -89,11 +89,12 @@ void event_numeric (irc_session_t *session, unsigned int event, const char *orig
 
 // [[Rcpp::export]]
 void irc_notify_int(CharacterVector irc_server,
+                    CharacterVector server_password,
                     CharacterVector channel,
+                    CharacterVector channel_password,
                     CharacterVector message,
                     int port,
                     bool ssl,
-                    CharacterVector server_password,
                     CharacterVector nickname,
                     CharacterVector username,
                     CharacterVector realname) {
@@ -102,9 +103,12 @@ void irc_notify_int(CharacterVector irc_server,
   irc_session_t *session;
 
   g_irc_server = irc_server[0];
-  g_channel = channel[0];
-  g_message = message;
   g_server_password = server_password[0];
+
+  g_channel = channel[0];
+  g_channel_password = channel_password[0];
+
+  g_message = message;
   g_nickname = nickname[0];
   g_username = username[0];
   g_realname = realname[0];

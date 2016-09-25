@@ -6,20 +6,21 @@
 using namespace Rcpp;
 
 // irc_notify_int
-void irc_notify_int(CharacterVector irc_server, CharacterVector channel, CharacterVector message, int port, bool ssl, CharacterVector server_password, CharacterVector nickname, CharacterVector username, CharacterVector realname);
-RcppExport SEXP irced_irc_notify_int(SEXP irc_serverSEXP, SEXP channelSEXP, SEXP messageSEXP, SEXP portSEXP, SEXP sslSEXP, SEXP server_passwordSEXP, SEXP nicknameSEXP, SEXP usernameSEXP, SEXP realnameSEXP) {
+void irc_notify_int(CharacterVector irc_server, CharacterVector server_password, CharacterVector channel, CharacterVector channel_password, CharacterVector message, int port, bool ssl, CharacterVector nickname, CharacterVector username, CharacterVector realname);
+RcppExport SEXP irced_irc_notify_int(SEXP irc_serverSEXP, SEXP server_passwordSEXP, SEXP channelSEXP, SEXP channel_passwordSEXP, SEXP messageSEXP, SEXP portSEXP, SEXP sslSEXP, SEXP nicknameSEXP, SEXP usernameSEXP, SEXP realnameSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< CharacterVector >::type irc_server(irc_serverSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type server_password(server_passwordSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type channel(channelSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type channel_password(channel_passwordSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type message(messageSEXP);
     Rcpp::traits::input_parameter< int >::type port(portSEXP);
     Rcpp::traits::input_parameter< bool >::type ssl(sslSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type server_password(server_passwordSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type nickname(nicknameSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type username(usernameSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type realname(realnameSEXP);
-    irc_notify_int(irc_server, channel, message, port, ssl, server_password, nickname, username, realname);
+    irc_notify_int(irc_server, server_password, channel, channel_password, message, port, ssl, nickname, username, realname);
     return R_NilValue;
 END_RCPP
 }

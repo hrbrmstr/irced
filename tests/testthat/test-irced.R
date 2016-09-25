@@ -1,6 +1,8 @@
 context("basic functionality")
 test_that("we can do something", {
 
-  #expect_that(some_function(), is_a("data.frame"))
+  irc_server("irc.rud.is") %>%
+    set_channel("#builds") %>%
+    post_message("Finishing a build is important, but building is more important.")
 
 })

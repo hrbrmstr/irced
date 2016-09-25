@@ -9,7 +9,7 @@ set_channel(irc_obj, channel, password = NULL)
 \arguments{
 \item{channel}{channel to join on the IRC server}
 
-\item{password}{channel password (NOTE: currently unused)}
+\item{password}{channel password}
 }
 \description{
 Set channel info

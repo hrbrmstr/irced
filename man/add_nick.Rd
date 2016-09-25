@@ -4,21 +4,22 @@
 \alias{add_nick}
 \title{Add nickname/user info}
 \usage{
-add_nick(irc_obj, nickname = "RMsgBot", username = "RMsgBot",
-  realname = "RMsgBot", password = NULL)
+add_nick(irc_obj, nickname = "keryx", username = "keryx",
+  realname = "keryx", password = NULL)
 }
 \arguments{
-\item{nickname}{nickname (default is "\code{RMsgBot}")}
+\item{nickname}{nickname (default is "\code{keryx}")}
 
-\item{username}{username (default is "\code{RMsgBot}")}
+\item{username}{username (default is "\code{keryx}")}
 
-\item{realname}{realname (default is "\code{RMsgBot}")}
+\item{realname}{realname (default is "\code{keryx}")}
 
 \item{password}{auth password for user (NOTE: not implemented yet)}
 }
 \description{
 You only need to use this function if you want to change the
-nick/user/real names or need to authenticate the nick.
+nick/user/real names or need to authenticate the nick. The default
+nickmame (et al) is \href{https://www.britannica.com/topic/keryx}{keryx}.
 }
 \examples{
 irc_server("irc.rud.is") \%>\%

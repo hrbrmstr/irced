@@ -1,7 +1,7 @@
 
 ------------------------------------------------------------------------
 
-`irced` :  
+`irced` : \\ˈɜrkt\\
 
 verb
 
@@ -17,9 +17,7 @@ Build systems such as 'Travic-CI' have many ways to notify users when jobs have 
 
 If you're looking to host your own IRC server, I've found [`ngircd`](https://ngircd.barton.de) to be compact and easy to install/administer.
 
-The API is no doubt going to radically change to support the TODOs below. If you have any feature/API requests, please file an issue.
-
-The package is titled as it is b/c if you send too many automated messages to an IRC channel with others in said channel this is what the'll become.
+The API is is not set in stone as of yet so if you have any feature/API requests, please file an issue.
 
 Many thanks to @jeroenooms for his anticonf pattern/source.
 
@@ -36,7 +34,8 @@ The following functions are implemented:
 -   \[x\] Bundle in `libircclient`
 -   \[ \] Finish Windows port
 -   \[x\] Separate out IRC server connection bits from the message sending bits (to support piping)
--   \[ \] Finish code for user/channel authentication
+-   \[x\] Finish code for channel authentication
+-   \[ \] Finish code for user authentication
 
 ### Installation
 
@@ -70,7 +69,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Sun Sep 25 09:21:14 2016"
+    ## [1] "Sun Sep 25 11:14:50 2016"
 
 ``` r
 test_dir("tests/")

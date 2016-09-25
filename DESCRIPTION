@@ -16,6 +16,7 @@ BugReports: https://gitlab.com/hrbrmstr/irced/issues
 SystemRequirements: C++11
 NeedsCompilation: yes
 License: AGPL
+Encoding: UTF-8
 Suggests:
     testthat
 Depends:
