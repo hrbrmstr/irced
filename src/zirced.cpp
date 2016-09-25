@@ -9,10 +9,8 @@ using namespace Rcpp;
 #include <chrono>
 #include <thread>
 
-std::string g_channel;
-std::string g_nickname;
-std::string g_username;
-std::string g_realname;
+std::string g_irc_server, g_server_password, g_channel,
+            g_nickname, g_username, g_realname;
 
 CharacterVector g_message;
 
@@ -88,46 +86,28 @@ void event_numeric (irc_session_t *session, unsigned int event, const char *orig
   // Rcout << event << " " << origin << " " << count << std::endl;
 }
 
-//' Send a message/notification to an IRC server/channel
-//'
-//' Given an IRC server and port, plus channel and character vector,
-//' send the contents of the character vector as separate messages to
-//' the specified channel.
-//'
-//' @param irc_server IRC server FQDN or IP address
-//' @param port IRC server port
-//' @param server_password server password or \code{NULL}
-//' @param nickname nickname (default is "\code{RMsgBot}")
-//' @param username username (default is "\code{RMsgBot}")
-//' @param realname realname (default is "\code{RMsgBot}")
-//' @param channel channel on the IRC server
-//' @param message character vector of messages to send
-//' @param ssl use secure connection to IRC server?
-//' @note Due to inherent limitations in the IRC protocol, each message must not
-//'       exceed 493 characters. Furthermore, since IRC messages are CRLF terminated,
-//'       messages should not include these characters.
-//' @export
-//' @examples
-//' irc_notify("irc.rud.is", "#builds", "test")
+
 // [[Rcpp::export]]
-void irc_notify(std::string irc_server,
-                std::string channel="#",
-                CharacterVector message="",
-                int port=6667,
-                bool ssl=false,
-                std::string server_password="",
-                std::string nickname="RMsgBot",
-                std::string username="RMsgBot",
-                std::string realname="RMsgBot") {
+void irc_notify_int(CharacterVector irc_server,
+                    CharacterVector channel,
+                    CharacterVector message,
+                    int port,
+                    bool ssl,
+                    CharacterVector server_password,
+                    CharacterVector nickname,
+                    CharacterVector username,
+                    CharacterVector realname) {
 
   irc_callbacks_t callbacks;
   irc_session_t *session;
 
-  g_channel = channel;
+  g_irc_server = irc_server[0];
+  g_channel = channel[0];
   g_message = message;
-  g_nickname = nickname;
-  g_username = username;
-  g_realname = realname;
+  g_server_password = server_password[0];
+  g_nickname = nickname[0];
+  g_username = username[0];
+  g_realname = realname[0];
 
   memset(&callbacks, 0, sizeof(callbacks));
 
@@ -154,12 +134,12 @@ void irc_notify(std::string irc_server,
   irc_option_set(session, LIBIRC_OPTION_STRIPNICKS);
 
   if (ssl) {
-    irc_server = "#" + irc_server;
+    g_irc_server = "#" + g_irc_server;
     irc_option_set(session, LIBIRC_OPTION_SSL_NO_VERIFY);
   }
 
-  if (irc_connect(session, irc_server.c_str(), port,
-                  (server_password=="" ? 0 : server_password.c_str()),
+  if (irc_connect(session, g_irc_server.c_str(), port,
+                  (g_server_password=="" ? 0 : g_server_password.c_str()),
                   g_nickname.c_str(), g_username.c_str(), g_realname.c_str())) {
   } else {
     // Rcout << "Connected" << std::endl;

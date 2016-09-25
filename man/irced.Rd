@@ -6,6 +6,14 @@
 \alias{irced-package}
 \title{Putting the R into IRC}
 \description{
+\code{irced} : \\ˈɜrkt\\\cr
+\cr
+verb\cr
+\cr
+1. what users in your IRC channels will become
+if you send too many automated messages.
+}
+\details{
 Build systems such as 'Travic-CI' have many ways to notify
 users when jobs have completed including posting a message to an IRC
 channel. In similar form, there are many times when analyses

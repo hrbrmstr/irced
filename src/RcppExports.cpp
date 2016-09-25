@@ -5,21 +5,21 @@
 
 using namespace Rcpp;
 
-// irc_notify
-void irc_notify(std::string irc_server, std::string channel, CharacterVector message, int port, bool ssl, std::string server_password, std::string nickname, std::string username, std::string realname);
-RcppExport SEXP irced_irc_notify(SEXP irc_serverSEXP, SEXP channelSEXP, SEXP messageSEXP, SEXP portSEXP, SEXP sslSEXP, SEXP server_passwordSEXP, SEXP nicknameSEXP, SEXP usernameSEXP, SEXP realnameSEXP) {
+// irc_notify_int
+void irc_notify_int(CharacterVector irc_server, CharacterVector channel, CharacterVector message, int port, bool ssl, CharacterVector server_password, CharacterVector nickname, CharacterVector username, CharacterVector realname);
+RcppExport SEXP irced_irc_notify_int(SEXP irc_serverSEXP, SEXP channelSEXP, SEXP messageSEXP, SEXP portSEXP, SEXP sslSEXP, SEXP server_passwordSEXP, SEXP nicknameSEXP, SEXP usernameSEXP, SEXP realnameSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type irc_server(irc_serverSEXP);
-    Rcpp::traits::input_parameter< std::string >::type channel(channelSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type irc_server(irc_serverSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type channel(channelSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type message(messageSEXP);
     Rcpp::traits::input_parameter< int >::type port(portSEXP);
     Rcpp::traits::input_parameter< bool >::type ssl(sslSEXP);
-    Rcpp::traits::input_parameter< std::string >::type server_password(server_passwordSEXP);
-    Rcpp::traits::input_parameter< std::string >::type nickname(nicknameSEXP);
-    Rcpp::traits::input_parameter< std::string >::type username(usernameSEXP);
-    Rcpp::traits::input_parameter< std::string >::type realname(realnameSEXP);
-    irc_notify(irc_server, channel, message, port, ssl, server_password, nickname, username, realname);
+    Rcpp::traits::input_parameter< CharacterVector >::type server_password(server_passwordSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type nickname(nicknameSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type username(usernameSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type realname(realnameSEXP);
+    irc_notify_int(irc_server, channel, message, port, ssl, server_password, nickname, username, realname);
     return R_NilValue;
 END_RCPP
 }
