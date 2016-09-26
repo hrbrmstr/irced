@@ -9,17 +9,108 @@ irc_bot <- function(irc_server, server_password, channel, channel_password, port
     invisible(.Call('irced_irc_bot', PACKAGE = 'irced', irc_server, server_password, channel, channel_password, port, ssl, nickname, username, realname, verbose, bot_func))
 }
 
-#' Send a message to a channel from a bot
+#' quit
 #'
 #' @export
-bot_msg <- function(message) {
-    invisible(.Call('irced_bot_msg', PACKAGE = 'irced', message))
+bot_cmd_quit <- function(reason) {
+    invisible(.Call('irced_bot_cmd_quit', PACKAGE = 'irced', reason))
 }
 
-#' Leave the channel we're in
+#' join
 #'
 #' @export
-bot_part <- function() {
-    invisible(.Call('irced_bot_part', PACKAGE = 'irced'))
+bot_cmd_join <- function(channel, password) {
+    invisible(.Call('irced_bot_cmd_join', PACKAGE = 'irced', channel, password))
+}
+
+#' part
+#'
+#' @export
+bot_cmd_part <- function(channel) {
+    invisible(.Call('irced_bot_cmd_part', PACKAGE = 'irced', channel))
+}
+
+#' invite
+#'
+#' @export
+bot_cmd_invite <- function(nick, channel) {
+    invisible(.Call('irced_bot_cmd_invite', PACKAGE = 'irced', nick, channel))
+}
+
+#' names
+#'
+#' @export
+bot_cmd_names <- function(channel) {
+    invisible(.Call('irced_bot_cmd_names', PACKAGE = 'irced', channel))
+}
+
+#' list
+#'
+#' @export
+bot_cmd_list <- function(channel) {
+    invisible(.Call('irced_bot_cmd_list', PACKAGE = 'irced', channel))
+}
+
+#' topic
+#'
+#' @export
+bot_cmd_topic <- function(channel, topic) {
+    invisible(.Call('irced_bot_cmd_topic', PACKAGE = 'irced', channel, topic))
+}
+
+#' channel
+#'
+#' @export
+bot_cmd_channel <- function(channel, mode) {
+    invisible(.Call('irced_bot_cmd_channel', PACKAGE = 'irced', channel, mode))
+}
+
+#' user
+#'
+#' @export
+bot_cmd_user <- function(mode) {
+    invisible(.Call('irced_bot_cmd_user', PACKAGE = 'irced', mode))
+}
+
+#' nick
+#'
+#' @export
+bot_cmd_nick <- function(newnick) {
+    invisible(.Call('irced_bot_cmd_nick', PACKAGE = 'irced', newnick))
+}
+
+#' whois
+#'
+#' @export
+bot_cmd_whois <- function(nick) {
+    invisible(.Call('irced_bot_cmd_whois', PACKAGE = 'irced', nick))
+}
+
+#' msg
+#'
+#' @export
+bot_cmd_msg <- function(channel, message) {
+    invisible(.Call('irced_bot_cmd_msg', PACKAGE = 'irced', channel, message))
+}
+
+#' me
+#'
+#' @export
+bot_cmd_me <- function(channel, message) {
+    invisible(.Call('irced_bot_cmd_me', PACKAGE = 'irced', channel, message))
+}
+
+#' notice
+#'
+#' @export
+bot_cmd_notice <- function(channel, message) {
+    invisible(.Call('irced_bot_cmd_notice', PACKAGE = 'irced', channel, message))
+}
+
+#' kick
+#'
+#' @export
+bot_cmd_kick <- function(nick, channel, reason) {
+    invisible(.Call('irced_bot_cmd_kick', PACKAGE = 'irced', nick, channel, reason))
 }
 

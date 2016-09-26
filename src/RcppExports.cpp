@@ -45,22 +45,162 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
-// bot_msg
-void bot_msg(std::string message);
-RcppExport SEXP irced_bot_msg(SEXP messageSEXP) {
+// bot_cmd_quit
+void bot_cmd_quit(std::string reason);
+RcppExport SEXP irced_bot_cmd_quit(SEXP reasonSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type message(messageSEXP);
-    bot_msg(message);
+    Rcpp::traits::input_parameter< std::string >::type reason(reasonSEXP);
+    bot_cmd_quit(reason);
     return R_NilValue;
 END_RCPP
 }
-// bot_part
-void bot_part();
-RcppExport SEXP irced_bot_part() {
+// bot_cmd_join
+void bot_cmd_join(std::string channel, std::string password);
+RcppExport SEXP irced_bot_cmd_join(SEXP channelSEXP, SEXP passwordSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    bot_part();
+    Rcpp::traits::input_parameter< std::string >::type channel(channelSEXP);
+    Rcpp::traits::input_parameter< std::string >::type password(passwordSEXP);
+    bot_cmd_join(channel, password);
+    return R_NilValue;
+END_RCPP
+}
+// bot_cmd_part
+void bot_cmd_part(std::string channel);
+RcppExport SEXP irced_bot_cmd_part(SEXP channelSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type channel(channelSEXP);
+    bot_cmd_part(channel);
+    return R_NilValue;
+END_RCPP
+}
+// bot_cmd_invite
+void bot_cmd_invite(std::string nick, std::string channel);
+RcppExport SEXP irced_bot_cmd_invite(SEXP nickSEXP, SEXP channelSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type nick(nickSEXP);
+    Rcpp::traits::input_parameter< std::string >::type channel(channelSEXP);
+    bot_cmd_invite(nick, channel);
+    return R_NilValue;
+END_RCPP
+}
+// bot_cmd_names
+void bot_cmd_names(std::string channel);
+RcppExport SEXP irced_bot_cmd_names(SEXP channelSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type channel(channelSEXP);
+    bot_cmd_names(channel);
+    return R_NilValue;
+END_RCPP
+}
+// bot_cmd_list
+void bot_cmd_list(std::string channel);
+RcppExport SEXP irced_bot_cmd_list(SEXP channelSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type channel(channelSEXP);
+    bot_cmd_list(channel);
+    return R_NilValue;
+END_RCPP
+}
+// bot_cmd_topic
+void bot_cmd_topic(std::string channel, std::string topic);
+RcppExport SEXP irced_bot_cmd_topic(SEXP channelSEXP, SEXP topicSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type channel(channelSEXP);
+    Rcpp::traits::input_parameter< std::string >::type topic(topicSEXP);
+    bot_cmd_topic(channel, topic);
+    return R_NilValue;
+END_RCPP
+}
+// bot_cmd_channel
+void bot_cmd_channel(std::string channel, std::string mode);
+RcppExport SEXP irced_bot_cmd_channel(SEXP channelSEXP, SEXP modeSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type channel(channelSEXP);
+    Rcpp::traits::input_parameter< std::string >::type mode(modeSEXP);
+    bot_cmd_channel(channel, mode);
+    return R_NilValue;
+END_RCPP
+}
+// bot_cmd_user
+void bot_cmd_user(std::string mode);
+RcppExport SEXP irced_bot_cmd_user(SEXP modeSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type mode(modeSEXP);
+    bot_cmd_user(mode);
+    return R_NilValue;
+END_RCPP
+}
+// bot_cmd_nick
+void bot_cmd_nick(std::string newnick);
+RcppExport SEXP irced_bot_cmd_nick(SEXP newnickSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type newnick(newnickSEXP);
+    bot_cmd_nick(newnick);
+    return R_NilValue;
+END_RCPP
+}
+// bot_cmd_whois
+void bot_cmd_whois(std::string nick);
+RcppExport SEXP irced_bot_cmd_whois(SEXP nickSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type nick(nickSEXP);
+    bot_cmd_whois(nick);
+    return R_NilValue;
+END_RCPP
+}
+// bot_cmd_msg
+void bot_cmd_msg(std::string channel, std::string message);
+RcppExport SEXP irced_bot_cmd_msg(SEXP channelSEXP, SEXP messageSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type channel(channelSEXP);
+    Rcpp::traits::input_parameter< std::string >::type message(messageSEXP);
+    bot_cmd_msg(channel, message);
+    return R_NilValue;
+END_RCPP
+}
+// bot_cmd_me
+void bot_cmd_me(std::string channel, std::string message);
+RcppExport SEXP irced_bot_cmd_me(SEXP channelSEXP, SEXP messageSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type channel(channelSEXP);
+    Rcpp::traits::input_parameter< std::string >::type message(messageSEXP);
+    bot_cmd_me(channel, message);
+    return R_NilValue;
+END_RCPP
+}
+// bot_cmd_notice
+void bot_cmd_notice(std::string channel, std::string message);
+RcppExport SEXP irced_bot_cmd_notice(SEXP channelSEXP, SEXP messageSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type channel(channelSEXP);
+    Rcpp::traits::input_parameter< std::string >::type message(messageSEXP);
+    bot_cmd_notice(channel, message);
+    return R_NilValue;
+END_RCPP
+}
+// bot_cmd_kick
+void bot_cmd_kick(std::string nick, std::string channel, std::string reason);
+RcppExport SEXP irced_bot_cmd_kick(SEXP nickSEXP, SEXP channelSEXP, SEXP reasonSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type nick(nickSEXP);
+    Rcpp::traits::input_parameter< std::string >::type channel(channelSEXP);
+    Rcpp::traits::input_parameter< std::string >::type reason(reasonSEXP);
+    bot_cmd_kick(nick, channel, reason);
     return R_NilValue;
 END_RCPP
 }

@@ -49,7 +49,50 @@ The following functions are implemented:
 devtools::install_github("hrbrmstr/irced")
 ```
 
-### Usage
+### Working on Bots (subject to change)
+
+``` r
+    library(irced)
+    library(jsonlite)
+
+    # probably should/will turn this into an S4 or reference class
+    my_bot <- function(event, origin, params) {
+      
+      # pretty event console logging
+      message(
+        sprintf(
+          "%s\n", 
+          toJSON(
+            list(
+              EVENT=unbox(event),
+              ORIGIN=unbox(origin),
+              PARAMS=params
+            ), 
+            pretty=TRUE)
+        )
+      )
+      
+      if (event == "CHANNEL" & origin != "keryx") {
+        if (params[2] == ">>QUIT") {
+          bot_cmd_part(params[1])
+        } else {
+          res <- sample(c(FALSE, TRUE), 1)
+          if (res) {
+            bot_cmd_list(params[1])
+          } else {
+            bot_cmd_msg(params[1], sprintf("Something  %d", sample(100, 1)))
+          }
+        }
+      }
+      
+    }
+
+    irc_connect("irc.rud.is") %>% 
+      set_channel("#builds") %>% 
+      start_bot("my_bot")
+```
+
+### Notifications (subject to change)
 
 ``` r
 library(irced)
@@ -58,30 +101,10 @@ library(irced)
 packageVersion("irced")
 ```
 
-    ## [1] '0.1.0'
-
 ``` r
-irc_server("irc.rud.is") %>% 
+irc_connect("irc.rud.is") %>% 
  set_channel("#builds") %>% 
  post_message("Finishing a build is important, but building is more important.")
 ```
 
-### Test Results
-
-``` r
-library(irced)
-library(testthat)
-
-date()
-```
-
-    ## [1] "Sun Sep 25 12:22:32 2016"
-
-``` r
-test_dir("tests/")
-```
-
-    ## testthat results ========================================================================================================
-    ## OK: 0 SKIPPED: 0 FAILED: 0
-    ## 
-    ## DONE ===================================================================================================================
+<!-- ### Test Results -->
