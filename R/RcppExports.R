@@ -5,3 +5,21 @@ irc_notify_int <- function(irc_server, server_password, channel, channel_passwor
     invisible(.Call('irced_irc_notify_int', PACKAGE = 'irced', irc_server, server_password, channel, channel_password, message, port, ssl, nickname, username, realname, verbose))
 }
 
+irc_bot <- function(irc_server, server_password, channel, channel_password, port, ssl, nickname, username, realname, verbose, bot_func) {
+    invisible(.Call('irced_irc_bot', PACKAGE = 'irced', irc_server, server_password, channel, channel_password, port, ssl, nickname, username, realname, verbose, bot_func))
+}
+
+#' Send a message to a channel from a bot
+#'
+#' @export
+bot_msg <- function(message) {
+    invisible(.Call('irced_bot_msg', PACKAGE = 'irced', message))
+}
+
+#' Leave the channel we're in
+#'
+#' @export
+bot_part <- function() {
+    invisible(.Call('irced_bot_part', PACKAGE = 'irced'))
+}
+

@@ -25,3 +25,42 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// irc_bot
+void irc_bot(CharacterVector irc_server, CharacterVector server_password, CharacterVector channel, CharacterVector channel_password, int port, bool ssl, CharacterVector nickname, CharacterVector username, CharacterVector realname, bool verbose, std::string bot_func);
+RcppExport SEXP irced_irc_bot(SEXP irc_serverSEXP, SEXP server_passwordSEXP, SEXP channelSEXP, SEXP channel_passwordSEXP, SEXP portSEXP, SEXP sslSEXP, SEXP nicknameSEXP, SEXP usernameSEXP, SEXP realnameSEXP, SEXP verboseSEXP, SEXP bot_funcSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type irc_server(irc_serverSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type server_password(server_passwordSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type channel(channelSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type channel_password(channel_passwordSEXP);
+    Rcpp::traits::input_parameter< int >::type port(portSEXP);
+    Rcpp::traits::input_parameter< bool >::type ssl(sslSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type nickname(nicknameSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type username(usernameSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type realname(realnameSEXP);
+    Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
+    Rcpp::traits::input_parameter< std::string >::type bot_func(bot_funcSEXP);
+    irc_bot(irc_server, server_password, channel, channel_password, port, ssl, nickname, username, realname, verbose, bot_func);
+    return R_NilValue;
+END_RCPP
+}
+// bot_msg
+void bot_msg(std::string message);
+RcppExport SEXP irced_bot_msg(SEXP messageSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type message(messageSEXP);
+    bot_msg(message);
+    return R_NilValue;
+END_RCPP
+}
+// bot_part
+void bot_part();
+RcppExport SEXP irced_bot_part() {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    bot_part();
+    return R_NilValue;
+END_RCPP
+}
