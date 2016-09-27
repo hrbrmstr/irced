@@ -10,15 +10,15 @@
 #' @param verbose produce \emph{very} chatty IRC diagnostic messages?
 #' @export
 #' @examples
-#' irc_connect("irc.rud.is") %>%
-#'   set_channel("#builds") %>%
-#'   post_message("Finishing a build is important, but building is more important.")
-irc_connect <- function(host_or_ip, port=6667, password=NULL, use_ssl=FALSE,
-                       verbose=FALSE) {
+#' irc_server("irc.rud.is") %>%
+#'   add_nick("nick", "nick", "nick") %>%
+#'   irc_connect() -> session
+irc_server <- function(host_or_ip, port=6667, password=NULL, use_ssl=FALSE, verbose=TRUE) {
   list(server=host_or_ip,
        port=port,
        server_password=password %||% "",
        use_ssl=use_ssl,
+       session=NULL,
        verbose=verbose,
        nickname="keryx",
        username="keryx",
@@ -33,6 +33,7 @@ irc_connect <- function(host_or_ip, port=6667, password=NULL, use_ssl=FALSE,
 #' nick/user/real names or need to authenticate the nick. The default
 #' nickmame (et al) is \href{https://www.britannica.com/topic/keryx}{keryx}.
 #'
+#' @param irc_obj irc object
 #' @param nickname nickname (default is "\code{keryx}")
 #' @param username username (default is "\code{keryx}")
 #' @param realname realname (default is "\code{keryx}")
@@ -46,10 +47,9 @@ irc_connect <- function(host_or_ip, port=6667, password=NULL, use_ssl=FALSE,
 #'
 #' @export
 #' @examples
-#' irc_connect("irc.rud.is") %>%
-#'   set_channel("#builds") %>%
+#' irc_server("irc.rud.is") %>%
 #'   add_nick("nick", "nick", "nick") %>%
-#'   post_message("Finishing a build is important, but building is more important.")
+#'   irc_connect() -> session
 add_nick <- function(irc_obj, nickname="keryx", username="keryx",
                      realname="keryx", password=NULL) {
   irc_obj$nickname <- nickname
@@ -58,19 +58,48 @@ add_nick <- function(irc_obj, nickname="keryx", username="keryx",
   irc_obj
 }
 
-#' Set channel info
+#' Make connection
 #'
-#' @param channel channel to join on the IRC server
-#' @param password channel password
+#' @param irc_obj irc object
 #' @export
 #' @examples
-#' irc_connect("irc.rud.is") %>%
-#'   set_channel("#builds") %>%
-#'   post_message("Finishing a build is important, but building is more important.")
-set_channel <- function(irc_obj, channel, password=NULL) {
-  irc_obj$channel <- channel
-  irc_obj$channel_password <- password %||% ""
+#' irc_server("irc.rud.is") %>%
+#'   add_nick("nick", "nick", "nick") %>%
+#'   irc_connect() -> session
+irc_connect <- function(irc_obj) {
+
+  irc_obj$session <- connect_irc(irc_obj$server, irc_obj$port, irc_obj$server_password,
+                                 irc_obj$use_ssl,
+                                 irc_obj$nickname, irc_obj$username, irc_obj$realname)
   irc_obj
+
+}
+
+
+#' Make bot connection
+#'
+#' @param irc_obj irc object
+#' @export
+#' @examples
+#' irc_server("irc.rud.is") %>%
+#'   add_nick("nick", "nick", "nick") %>%
+#'   bot_connect() -> session
+irc_connect <- function(irc_obj) {
+
+  irc_obj$session <- bot_connect_int(irc_obj$server, irc_obj$port, irc_obj$server_password,
+                                     irc_obj$use_ssl,
+                                     irc_obj$nickname, irc_obj$username, irc_obj$realname)
+  irc_obj
+
+}
+
+
+#' Disconnect
+#'
+#' @param irc_obj irc object
+#' @export
+irc_disconnect <- function(irc_obj) {
+  disconnect_irc(irc_obj$session)
 }
 
 #' Post an IRC message
@@ -81,28 +110,28 @@ set_channel <- function(irc_obj, channel, password=NULL) {
 #'       messages should not include these characters.
 #' @export
 #' @examples
-#' irc_connect("irc.rud.is") %>%
-#'   set_channel("#builds") %>%
-#'   post_message("Finishing a build is important, but building is more important.")
-post_message <- function(irc_obj, message) {
+#' irc_server("irc.rud.is") %>%
+#'   post_message("#builds", "Finishing a build is important, but building is more important.")
+post_message <- function(irc_obj, channel, message, channel_password=NULL) {
 
   if (irc_obj$use_ssl) message("SSL connections may take much longer than normal ones.")
 
-  irc_notify_int(
-    irc_server=irc_obj$server,
-    server_password=irc_obj$server_password,
+  irc_post_message(
+    irc_obj$server,
     port=as.integer(irc_obj$port),
-    ssl=irc_obj$use_ssl,
-    nickname=irc_obj$nickname,
-    username=irc_obj$username,
-    realname=irc_obj$realname,
-    channel=irc_obj$channel,
-    channel_password=irc_obj$channel_password,
-    message=message,
-    verbose=irc_obj$verbose
+    irc_obj$server_password,
+    irc_obj$use_ssl,
+    irc_obj$nickname,
+    irc_obj$username,
+    irc_obj$realname,
+    channel,
+    message,
+    channel_password %||% ""
   )
 
 }
+
+
 
 #' Bot
 #' @export
@@ -111,6 +140,7 @@ start_bot <- function(irc_obj, handler) {
   if (irc_obj$use_ssl) message("SSL connections may take much longer than normal ones.")
 
   irc_bot(
+    irc_obj$session,
     irc_server=irc_obj$server,
     server_password=irc_obj$server_password,
     port=as.integer(irc_obj$port),
@@ -125,6 +155,7 @@ start_bot <- function(irc_obj, handler) {
   )
 
 }
+
 
 #' Print method for IRC objects
 #'

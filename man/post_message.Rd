@@ -4,7 +4,7 @@
 \alias{post_message}
 \title{Post an IRC message}
 \usage{
-post_message(irc_obj, message)
+post_message(irc_obj, channel, message, channel_password = NULL)
 }
 \arguments{
 \item{message}{character vector of messages to send}
@@ -18,8 +18,7 @@ Due to inherent limitations in the IRC protocol, each message must not
       messages should not include these characters.
 }
 \examples{
-irc_connect("irc.rud.is") \%>\%
-  set_channel("#builds") \%>\%
-  post_message("Finishing a build is important, but building is more important.")
+irc_server("irc.rud.is") \%>\%
+  post_message("#builds", "Finishing a build is important, but building is more important.")
 }
 

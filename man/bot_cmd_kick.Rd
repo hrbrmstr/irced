@@ -4,7 +4,7 @@
 \alias{bot_cmd_kick}
 \title{kick}
 \usage{
-bot_cmd_kick(nick, channel, reason)
+bot_cmd_kick(irc, nick, channel, reason)
 }
 \description{
 kick

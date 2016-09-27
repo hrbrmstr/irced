@@ -4,7 +4,7 @@
 \alias{bot_cmd_invite}
 \title{invite}
 \usage{
-bot_cmd_invite(nick, channel)
+bot_cmd_invite(irc, nick, channel)
 }
 \description{
 invite

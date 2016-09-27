@@ -4,7 +4,7 @@
 \alias{bot_cmd_me}
 \title{me}
 \usage{
-bot_cmd_me(channel, message)
+bot_cmd_me(irc, channel, message)
 }
 \description{
 me

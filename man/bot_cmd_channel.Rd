@@ -4,7 +4,7 @@
 \alias{bot_cmd_channel}
 \title{channel}
 \usage{
-bot_cmd_channel(channel, mode)
+bot_cmd_channel(irc, channel, mode)
 }
 \description{
 channel

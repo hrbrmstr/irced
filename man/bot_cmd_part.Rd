@@ -4,7 +4,7 @@
 \alias{bot_cmd_part}
 \title{part}
 \usage{
-bot_cmd_part(channel)
+bot_cmd_part(irc, channel)
 }
 \description{
 part

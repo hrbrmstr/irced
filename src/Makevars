@@ -1,4 +1,4 @@
 CXX_STD = CXX11
-PKG_CPPFLAGS=-I. -I/usr/local/opt/openssl/include -DIN_BUILDING_LIBIRC -DENABLE_THREADS -D_REENTRANT -DENABLE_SSL
-PKG_CXXFLAGS=-I. -I/usr/local/opt/openssl/include -DIN_BUILDING_LIBIRC -DENABLE_THREADS -D_REENTRANT -DENABLE_SSL
+PKG_CPPFLAGS=-I. -I../inst/include -I/usr/local/opt/openssl/include -DIN_BUILDING_LIBIRC -DENABLE_THREADS -D_REENTRANT -DENABLE_SSL
+PKG_CXXFLAGS=-I. -I../inst/include -I/usr/local/opt/openssl/include -DIN_BUILDING_LIBIRC -DENABLE_THREADS -D_REENTRANT -DENABLE_SSL
 PKG_LIBS=-L/usr/local/opt/openssl/lib -lssl -lcrypto

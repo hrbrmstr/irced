@@ -4,7 +4,7 @@
 \alias{bot_cmd_names}
 \title{names}
 \usage{
-bot_cmd_names(channel)
+bot_cmd_names(irc, channel)
 }
 \description{
 names

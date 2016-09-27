@@ -4,7 +4,7 @@
 \alias{bot_cmd_quit}
 \title{quit}
 \usage{
-bot_cmd_quit(reason)
+bot_cmd_quit(irc, reason)
 }
 \description{
 quit

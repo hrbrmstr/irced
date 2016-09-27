@@ -4,7 +4,7 @@
 \alias{bot_cmd_list}
 \title{list}
 \usage{
-bot_cmd_list(channel)
+bot_cmd_list(irc, channel)
 }
 \description{
 list

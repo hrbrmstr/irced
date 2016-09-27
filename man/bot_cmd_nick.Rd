@@ -4,7 +4,7 @@
 \alias{bot_cmd_nick}
 \title{nick}
 \usage{
-bot_cmd_nick(newnick)
+bot_cmd_nick(irc, newnick)
 }
 \description{
 nick

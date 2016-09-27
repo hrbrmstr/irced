@@ -4,7 +4,7 @@
 \alias{bot_cmd_notice}
 \title{notice}
 \usage{
-bot_cmd_notice(channel, message)
+bot_cmd_notice(irc, channel, message)
 }
 \description{
 notice

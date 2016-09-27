@@ -4,7 +4,7 @@
 \alias{bot_cmd_user}
 \title{user}
 \usage{
-bot_cmd_user(mode)
+bot_cmd_user(irc, mode)
 }
 \description{
 user

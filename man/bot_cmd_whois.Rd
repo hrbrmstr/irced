@@ -4,7 +4,7 @@
 \alias{bot_cmd_whois}
 \title{whois}
 \usage{
-bot_cmd_whois(nick)
+bot_cmd_whois(irc, nick)
 }
 \description{
 whois

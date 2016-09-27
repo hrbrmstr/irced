@@ -4,7 +4,7 @@
 \alias{bot_cmd_join}
 \title{join}
 \usage{
-bot_cmd_join(channel, password)
+bot_cmd_join(irc, channel, password)
 }
 \description{
 join

@@ -4,7 +4,7 @@
 \alias{bot_cmd_topic}
 \title{topic}
 \usage{
-bot_cmd_topic(channel, topic)
+bot_cmd_topic(irc, channel, topic)
 }
 \description{
 topic

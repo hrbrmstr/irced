@@ -8,6 +8,8 @@ add_nick(irc_obj, nickname = "keryx", username = "keryx",
   realname = "keryx", password = NULL)
 }
 \arguments{
+\item{irc_obj}{irc object}
+
 \item{nickname}{nickname (default is "\code{keryx}")}
 
 \item{username}{username (default is "\code{keryx}")}
@@ -28,9 +30,8 @@ nick/user/real names or need to authenticate the nick. The default
 nickmame (et al) is \href{https://www.britannica.com/topic/keryx}{keryx}.
 }
 \examples{
-irc_connect("irc.rud.is") \%>\%
-  set_channel("#builds") \%>\%
+irc_server("irc.rud.is") \%>\%
   add_nick("nick", "nick", "nick") \%>\%
-  post_message("Finishing a build is important, but building is more important.")
+  irc_connect() -> session
 }
 
