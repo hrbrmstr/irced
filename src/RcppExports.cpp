@@ -35,47 +35,19 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
-// connect_irc
-Rcpp::XPtr<IRC> connect_irc(std::string server, int port, std::string server_password, bool ssl, std::string nick, std::string user, std::string real);
-RcppExport SEXP irced_connect_irc(SEXP serverSEXP, SEXP portSEXP, SEXP server_passwordSEXP, SEXP sslSEXP, SEXP nickSEXP, SEXP userSEXP, SEXP realSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type server(serverSEXP);
-    Rcpp::traits::input_parameter< int >::type port(portSEXP);
-    Rcpp::traits::input_parameter< std::string >::type server_password(server_passwordSEXP);
-    Rcpp::traits::input_parameter< bool >::type ssl(sslSEXP);
-    Rcpp::traits::input_parameter< std::string >::type nick(nickSEXP);
-    Rcpp::traits::input_parameter< std::string >::type user(userSEXP);
-    Rcpp::traits::input_parameter< std::string >::type real(realSEXP);
-    rcpp_result_gen = Rcpp::wrap(connect_irc(server, port, server_password, ssl, nick, user, real));
-    return rcpp_result_gen;
-END_RCPP
-}
-// irc_bot
-void irc_bot(Rcpp::XPtr<IRC> irc, std::string server, int port, std::string server_password, bool ssl, std::string nick, std::string user, std::string real, std::string channel, CharacterVector message, std::string channel_password, std::string bot_func);
-RcppExport SEXP irced_irc_bot(SEXP ircSEXP, SEXP serverSEXP, SEXP portSEXP, SEXP server_passwordSEXP, SEXP sslSEXP, SEXP nickSEXP, SEXP userSEXP, SEXP realSEXP, SEXP channelSEXP, SEXP messageSEXP, SEXP channel_passwordSEXP, SEXP bot_funcSEXP) {
+// bot_start_int
+void bot_start_int(Rcpp::XPtr<IRC> irc);
+RcppExport SEXP irced_bot_start_int(SEXP ircSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::XPtr<IRC> >::type irc(ircSEXP);
-    Rcpp::traits::input_parameter< std::string >::type server(serverSEXP);
-    Rcpp::traits::input_parameter< int >::type port(portSEXP);
-    Rcpp::traits::input_parameter< std::string >::type server_password(server_passwordSEXP);
-    Rcpp::traits::input_parameter< bool >::type ssl(sslSEXP);
-    Rcpp::traits::input_parameter< std::string >::type nick(nickSEXP);
-    Rcpp::traits::input_parameter< std::string >::type user(userSEXP);
-    Rcpp::traits::input_parameter< std::string >::type real(realSEXP);
-    Rcpp::traits::input_parameter< std::string >::type channel(channelSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type message(messageSEXP);
-    Rcpp::traits::input_parameter< std::string >::type channel_password(channel_passwordSEXP);
-    Rcpp::traits::input_parameter< std::string >::type bot_func(bot_funcSEXP);
-    irc_bot(irc, server, port, server_password, ssl, nick, user, real, channel, message, channel_password, bot_func);
+    bot_start_int(irc);
     return R_NilValue;
 END_RCPP
 }
 // bot_connect_int
-Rcpp::XPtr<IRC> bot_connect_int(std::string server, int port, std::string server_password, bool ssl, std::string nick, std::string user, std::string real);
-RcppExport SEXP irced_bot_connect_int(SEXP serverSEXP, SEXP portSEXP, SEXP server_passwordSEXP, SEXP sslSEXP, SEXP nickSEXP, SEXP userSEXP, SEXP realSEXP) {
+Rcpp::XPtr<IRC> bot_connect_int(std::string server, int port, std::string server_password, bool ssl, std::string nick, std::string user, std::string real, std::string bot_func);
+RcppExport SEXP irced_bot_connect_int(SEXP serverSEXP, SEXP portSEXP, SEXP server_passwordSEXP, SEXP sslSEXP, SEXP nickSEXP, SEXP userSEXP, SEXP realSEXP, SEXP bot_funcSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -86,7 +58,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< std::string >::type nick(nickSEXP);
     Rcpp::traits::input_parameter< std::string >::type user(userSEXP);
     Rcpp::traits::input_parameter< std::string >::type real(realSEXP);
-    rcpp_result_gen = Rcpp::wrap(bot_connect_int(server, port, server_password, ssl, nick, user, real));
+    Rcpp::traits::input_parameter< std::string >::type bot_func(bot_funcSEXP);
+    rcpp_result_gen = Rcpp::wrap(bot_connect_int(server, port, server_password, ssl, nick, user, real, bot_func));
     return rcpp_result_gen;
 END_RCPP
 }

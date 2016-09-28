@@ -22,14 +22,10 @@ node *lstail = &irc_list;
 void dump_event(irc_session_t *session, const char *event, const char *origin,
                 const char **params, unsigned int count) {
 
-  char buf[512];
-  int cnt;
-
-  buf[0] = '\0';
-
-  for (cnt = 0; cnt < count; cnt++) {
-    if (cnt) strcat (buf, "|");
-    strcat (buf, params[cnt]);
+  std::string buf;
+  for (int cnt = 0; cnt < count; cnt++) {
+    if (cnt) buf = buf + "|";
+    buf += std::string(params[cnt]);
   }
 
   Rcout << event << " : " << origin << " : " << buf << std::endl;
@@ -103,14 +99,10 @@ void event_numeric (irc_session_t *session, unsigned int event, const char *orig
 
   if (obj.be_verbose()) {
 
-    char buf[512];
-    int cnt;
-
-    buf[0] = '\0';
-
-    for (cnt = 0; cnt < count; cnt++) {
-      if (cnt) strcat (buf, "|");
-      strcat (buf, params[cnt]);
+    std::string buf;
+    for (int cnt = 0; cnt < count; cnt++) {
+      if (cnt) buf = buf + "|";
+      buf += std::string(params[cnt]);
     }
 
     Rcout << event << " : " << origin << " : " << buf << std::endl;
@@ -151,96 +143,70 @@ void disconnect_irc(Rcpp::XPtr<IRC> irc) {
   if (irc) irc->disconnect();
 }
 
-// [[Rcpp::export]]
-Rcpp::XPtr<IRC> connect_irc(std::string server, int port, std::string server_password,
-                            bool ssl, std::string nick, std::string user, std::string real) {
-
-  IRC irc = IRC();
-
-  irc.set_server(server, port, server_password, ssl);
-  irc.set_nick(nick, user, real);
-
-  irc.set_event_handler("connect", event_connect);
-  irc.set_event_handler("join", event_join);
-  irc.set_event_handler("part", event_part);
-  irc.set_event_handler("numeric", event_numeric);
-
-  irc.create_session();
-  irc.connect();
-
-  lstail->irc = irc;
-  IRC *ptr = &lstail->irc;
-  lstail-> next = new node;
-  lstail = lstail->next;
-
-  return(Rcpp::XPtr<IRC>(ptr));
-
-}
-
 /* BOT STUFF */
 
 void bot_numeric(irc_session_t *session, unsigned int event, const char *origin,
                  const char **params, unsigned int count) {
 
-  IRC obj = *(IRC *)irc_get_ctx(session);
+  Rcout << "===>BOT_NUMERIC" << std::endl;
 
-  if (obj.be_verbose()) {
-    char buf[512];
-    buf[0] = '\0';
+  IRC *obj = (IRC *)(irc_get_ctx(session));
+
+  Rcout << "===>BOT_NUMERIC => " << (obj->get_nickname()) << std::endl;
+
+  if (obj->be_verbose()) {
+    std::string buf;
     for (int cnt=0; cnt<count; cnt++) {
-      if (cnt) strcat (buf, "|");
-      strcat (buf, params[cnt]);
+      if (cnt) buf = buf + "|";
+      buf += std::string(params[cnt]);
     }
     Rcout << "BOT " << event << " : " << origin << " : " << buf << std::endl;
   }
 
-  obj.call_bot_func((char *)std::to_string(event).c_str(), (char *)origin, (char **)params, count);
+  obj->call_bot_func(Rcpp::XPtr<IRC>(obj), (char *)std::to_string(event).c_str(), (char *)origin, (char **)params, count);
 
 }
 
 void bot_event(irc_session_t *session, const char *event, const char *origin,
                const char **params, unsigned int count) {
 
-  IRC obj = *(IRC *)irc_get_ctx(session);
+  Rcout << "===>BOT_EVENT" << std::endl;
 
-  if (obj.be_verbose()) {
-    char buf[512];
-    buf[0] = '\0';
-    for (int cnt=0; cnt<count; cnt++) {
-      if (cnt) strcat (buf, "|");
-      strcat (buf, params[cnt]);
+  IRC *obj = (IRC *)(irc_get_ctx(session));
+
+  Rcout << "===>BOT_EVENT => " << (obj->get_nickname()) << std::endl;
+
+  if (obj->be_verbose()) {
+    std::string buf;
+    for (int cnt = 0; cnt < count; cnt++) {
+      if (cnt) buf = buf + "|";
+      buf += std::string(params[cnt]);
     }
     Rcout << "BOT " << event << " : " << origin << " : " << buf << std::endl;
   }
 
-  obj.call_bot_func((char *)event, (char *)origin, (char **)params, count);
+  obj->call_bot_func(Rcpp::XPtr<IRC>(obj), (char *)event, (char *)origin, (char **)params, count);
 
 }
 
 // [[Rcpp::export]]
-void irc_bot(Rcpp::XPtr<IRC> irc,
-             std::string server, int port, std::string server_password,
-             bool ssl, std::string nick, std::string user, std::string real,
-             std::string channel,
-             CharacterVector message,
-             std::string channel_password,
-             std::string bot_func) {
+void bot_start_int(Rcpp::XPtr<IRC> irc) {
 
+  IRC obj = *irc;
 
-  irc->set_channel(channel, channel_password);
+  obj.set_channel(obj.get_channel(), obj.get_channel_password());
 
-  irc->set_bot_handler(bot_func);
+  Rcout << obj.get_nickname() << " " << (obj.get_session() == NULL) << std::endl;
 
-  irc->create_session();
-  irc->connect();
-  irc->run();
-  irc->disconnect();
+  obj.run();
+  obj.disconnect();
 
 }
 
 // [[Rcpp::export]]
 Rcpp::XPtr<IRC> bot_connect_int(std::string server, int port, std::string server_password,
-                                bool ssl, std::string nick, std::string user, std::string real) {
+                                bool ssl, std::string nick, std::string user,
+                                std::string real, std::string bot_func) {
 
   IRC irc = IRC();
 
@@ -249,6 +215,8 @@ Rcpp::XPtr<IRC> bot_connect_int(std::string server, int port, std::string server
 
   irc.set_all_handlers(bot_event, bot_numeric);
 
+  irc.set_bot_handler(bot_func);
+
   irc.create_session();
   irc.connect();
 
@@ -256,6 +224,8 @@ Rcpp::XPtr<IRC> bot_connect_int(std::string server, int port, std::string server
   IRC *ptr = &lstail->irc;
   lstail-> next = new node;
   lstail = lstail->next;
+
+  irc_set_ctx(irc.get_session(), ptr);
 
   return(Rcpp::XPtr<IRC>(ptr));
 

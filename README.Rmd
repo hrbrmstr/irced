@@ -31,8 +31,6 @@ Many thanks to @jeroenooms for his anticonf pattern/source.
 The following functions are implemented:
 
 - `add_nick`:	Add nickname/user info
-- `irced`:	Putting the R into IRC
-- `irc_connect`:	Create an IRC server object
 - `post_message`:	Post an IRC message
 - `set_channel`:	Set channel info
 
@@ -94,7 +92,7 @@ options(width=120)
       
     }
 
-    irc_connect("irc.rud.is") %>% 
+    irc_server("irc.rud.is") %>% 
       set_channel("#builds") %>% 
       bot_connect() %>% 
       start_bot("my_bot")
@@ -110,9 +108,8 @@ packageVersion("irced")
 ```
 ```{r echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE, error=FALSE, eval=FALSE}
 
-irc_connect("irc.rud.is") %>% 
- set_channel("#builds") %>% 
- post_message("Finishing a build is important, but building is more important.")
+irc_server("irc.rud.is") %>% 
+ post_message("#builds", "Finishing a build is important, but building is more important.")
 ```
 
 <!-- ### Test Results -->

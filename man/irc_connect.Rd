@@ -5,25 +5,16 @@
 \title{Make connection}
 \usage{
 irc_connect(irc_obj)
-
-irc_connect(irc_obj)
 }
 \arguments{
-\item{irc_obj}{irc object}
-
 \item{irc_obj}{irc object}
 }
 \description{
 Make connection
-
-Make bot connection
 }
 \examples{
 irc_server("irc.rud.is") \%>\%
   add_nick("nick", "nick", "nick") \%>\%
   irc_connect() -> session
-irc_server("irc.rud.is") \%>\%
-  add_nick("nick", "nick", "nick") \%>\%
-  bot_connect() -> session
 }
 

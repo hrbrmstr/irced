@@ -58,6 +58,14 @@ add_nick <- function(irc_obj, nickname="keryx", username="keryx",
   irc_obj
 }
 
+#' @export
+set_channel <- function(irc_bot, name, password=NULL) {
+  irc_bot$channel <- name
+  irc_bot$channel_password <- password %||% ""
+  irc_bot
+}
+
+
 #' Make connection
 #'
 #' @param irc_obj irc object
@@ -74,25 +82,6 @@ irc_connect <- function(irc_obj) {
   irc_obj
 
 }
-
-
-#' Make bot connection
-#'
-#' @param irc_obj irc object
-#' @export
-#' @examples
-#' irc_server("irc.rud.is") %>%
-#'   add_nick("nick", "nick", "nick") %>%
-#'   bot_connect() -> session
-irc_connect <- function(irc_obj) {
-
-  irc_obj$session <- bot_connect_int(irc_obj$server, irc_obj$port, irc_obj$server_password,
-                                     irc_obj$use_ssl,
-                                     irc_obj$nickname, irc_obj$username, irc_obj$realname)
-  irc_obj
-
-}
-
 
 #' Disconnect
 #'
@@ -131,31 +120,35 @@ post_message <- function(irc_obj, channel, message, channel_password=NULL) {
 
 }
 
-
-
-#' Bot
+#' Make bot connection
+#'
+#' @param irc_obj irc object
+#' @param handler bot handler R function
 #' @export
-start_bot <- function(irc_obj, handler) {
+bot_connect <- function(irc_obj, handler) {
 
-  if (irc_obj$use_ssl) message("SSL connections may take much longer than normal ones.")
-
-  irc_bot(
-    irc_obj$session,
-    irc_server=irc_obj$server,
-    server_password=irc_obj$server_password,
-    port=as.integer(irc_obj$port),
-    ssl=irc_obj$use_ssl,
-    nickname=irc_obj$nickname,
-    username=irc_obj$username,
-    realname=irc_obj$realname,
-    channel=irc_obj$channel,
-    channel_password=irc_obj$channel_password,
-    verbose=irc_obj$verbose,
+  irc_obj$session <- bot_connect_int(
+    irc_obj$server, irc_obj$port, irc_obj$server_password,
+    irc_obj$use_ssl,
+    irc_obj$nickname, irc_obj$username, irc_obj$realname,
     bot_func=handler
   )
 
+  irc_obj
+
 }
 
+#' Bot
+#' @export
+start_bot <- function(irc_obj) {
+
+  if (irc_obj$use_ssl) message("SSL connections may take much longer than normal ones.")
+
+  print(str(irc_obj))
+
+  bot_start_int(irc_obj$session)
+
+}
 
 #' Print method for IRC objects
 #'

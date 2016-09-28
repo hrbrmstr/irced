@@ -9,16 +9,12 @@ disconnect_irc <- function(irc) {
     invisible(.Call('irced_disconnect_irc', PACKAGE = 'irced', irc))
 }
 
-connect_irc <- function(server, port, server_password, ssl, nick, user, real) {
-    .Call('irced_connect_irc', PACKAGE = 'irced', server, port, server_password, ssl, nick, user, real)
+bot_start_int <- function(irc) {
+    invisible(.Call('irced_bot_start_int', PACKAGE = 'irced', irc))
 }
 
-irc_bot <- function(irc, server, port, server_password, ssl, nick, user, real, channel, message, channel_password, bot_func) {
-    invisible(.Call('irced_irc_bot', PACKAGE = 'irced', irc, server, port, server_password, ssl, nick, user, real, channel, message, channel_password, bot_func))
-}
-
-bot_connect_int <- function(server, port, server_password, ssl, nick, user, real) {
-    .Call('irced_bot_connect_int', PACKAGE = 'irced', server, port, server_password, ssl, nick, user, real)
+bot_connect_int <- function(server, port, server_password, ssl, nick, user, real, bot_func) {
+    .Call('irced_bot_connect_int', PACKAGE = 'irced', server, port, server_password, ssl, nick, user, real, bot_func)
 }
 
 #' quit

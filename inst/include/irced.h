@@ -29,6 +29,8 @@ public:
     ssl = use_ssl;
   }
 
+  std::string get_server() { return(irc_server); }
+
   void set_verbose() { verbose = true; }
 
   bool be_verbose() { return(verbose); }
@@ -56,13 +58,19 @@ public:
   CharacterVector get_message() { return(message); }
 
   void create_session() {
+
     session = irc_create_session(&callbacks);
+
+    irc_set_ctx(session, this);
+
     irc_option_set(session, LIBIRC_OPTION_STRIPNICKS);
+
     if (ssl) {
       if (verbose) Rcout << "Using SSL" << std::endl;
       irc_server = "#" + irc_server;
       irc_option_set(session, LIBIRC_OPTION_SSL_NO_VERIFY);
     }
+
   }
 
   irc_session_t *get_session() { return(session); }
@@ -76,6 +84,8 @@ public:
   }
 
   void set_all_handlers(irc_event_callback_t h1, irc_eventcode_callback_t h2) {
+
+    clear_handlers();
 
     callbacks.event_connect = h1;
     callbacks.event_nick = h1;
@@ -116,7 +126,11 @@ public:
 
   }
 
-  void call_bot_func(char *event, char *origin, char **params, unsigned int count) {
+  void call_bot_func(Rcpp::XPtr<IRC> obj,
+                     char *event, char *origin, char **params,
+                     unsigned int count) {
+
+    Rcout << "Calling bot function..." << std::endl;
 
     CharacterVector p(count);
     for (int cnt=0; cnt<count; cnt++) {
@@ -125,7 +139,8 @@ public:
 
     Environment env = Environment::global_env();
     Function f = env[bot_func];
-    f(Rcpp::XPtr<IRC>(this), std::string(event), std::string(origin), p);
+
+    f(obj, std::string(event), std::string(origin), p, count);
 
   }
 
@@ -134,16 +149,19 @@ public:
   }
 
   void connect() {
+    Rcout << "===> CONNECT" << std::endl;
     if (session) {
       int ret = irc_connect(session, irc_server.c_str(), port,
                             (server_password=="" ? 0 : server_password.c_str()),
                             nickname.c_str(), username.c_str(), realname.c_str());
-      irc_set_ctx(session, this);
       Rcout << "Connected " << ret << std::endl;
+      IRC tmp = *(IRC *)irc_get_ctx(session);
+      Rcout << "ctx test " << tmp.get_server() << std::endl;
     }
   }
 
   void disconnect() {
+    Rcout << "===> DISCONNECT" << std::endl;
     if (session) {
       irc_disconnect(session);
       Rcout << "Disconnected" << std::endl;
@@ -151,6 +169,7 @@ public:
   }
 
   void run() {
+    Rcout << "===> RUN" << std::endl;
     if (session) irc_run(session);
   }
 

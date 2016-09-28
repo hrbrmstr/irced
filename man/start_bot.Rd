@@ -4,7 +4,7 @@
 \alias{start_bot}
 \title{Bot}
 \usage{
-start_bot(irc_obj, handler)
+start_bot(irc_obj)
 }
 \description{
 Bot
