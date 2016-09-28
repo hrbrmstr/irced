@@ -160,7 +160,7 @@ void bot_numeric(irc_session_t *session, unsigned int event, const char *origin,
       if (cnt) buf = buf + "|";
       buf += std::string(params[cnt]);
     }
-    Rcout << "BOT " << event << " : " << origin << " : " << buf << std::endl;
+    Rcout << "==>BOT_NUMERIC => " << event << " : " << origin << " : " << buf << std::endl;
   }
 
   obj->call_bot_func(Rcpp::XPtr<IRC>(obj), (char *)std::to_string(event).c_str(), (char *)origin, (char **)params, count);
@@ -182,7 +182,7 @@ void bot_event(irc_session_t *session, const char *event, const char *origin,
       if (cnt) buf = buf + "|";
       buf += std::string(params[cnt]);
     }
-    Rcout << "BOT " << event << " : " << origin << " : " << buf << std::endl;
+    Rcout << "===>BOT_EVENT => " << event << " : " << origin << " : " << buf << std::endl;
   }
 
   obj->call_bot_func(Rcpp::XPtr<IRC>(obj), (char *)event, (char *)origin, (char **)params, count);
@@ -206,7 +206,7 @@ void bot_start_int(Rcpp::XPtr<IRC> irc) {
 // [[Rcpp::export]]
 Rcpp::XPtr<IRC> bot_connect_int(std::string server, int port, std::string server_password,
                                 bool ssl, std::string nick, std::string user,
-                                std::string real, std::string bot_func) {
+                                std::string real, Function bot_func) {
 
   IRC irc = IRC();
 

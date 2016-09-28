@@ -20,6 +20,7 @@ public:
     session = NULL;
     verbose = true;
     clear_handlers();
+
   }
 
   void set_server(std::string server, int irc_port, std::string password, bool use_ssl) {
@@ -137,15 +138,14 @@ public:
       p[cnt] = std::string(params[cnt]);
     }
 
-    Environment env = Environment::global_env();
-    Function f = env[bot_func];
+    Rcout << "in call_bot_func ==> " << event << " | " << origin << " | " << p << " | " << count << std::endl;
 
-    f(obj, std::string(event), std::string(origin), p, count);
+    bot_func(obj, std::string(event), std::string(origin), p, count);
 
   }
 
-  void set_bot_handler(std::string function_name) {
-    f_name = function_name;
+  void set_bot_handler(Function f) {
+    bot_func = f;
   }
 
   void connect() {
@@ -193,9 +193,7 @@ private:
   std::string username;
   std::string realname;
 
-  std::string bot_func;
-
-  std::string f_name;
+  Function bot_func = Environment::base_env()["cat"];
 
 };
 

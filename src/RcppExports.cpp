@@ -46,7 +46,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // bot_connect_int
-Rcpp::XPtr<IRC> bot_connect_int(std::string server, int port, std::string server_password, bool ssl, std::string nick, std::string user, std::string real, std::string bot_func);
+Rcpp::XPtr<IRC> bot_connect_int(std::string server, int port, std::string server_password, bool ssl, std::string nick, std::string user, std::string real, Function bot_func);
 RcppExport SEXP irced_bot_connect_int(SEXP serverSEXP, SEXP portSEXP, SEXP server_passwordSEXP, SEXP sslSEXP, SEXP nickSEXP, SEXP userSEXP, SEXP realSEXP, SEXP bot_funcSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -58,7 +58,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< std::string >::type nick(nickSEXP);
     Rcpp::traits::input_parameter< std::string >::type user(userSEXP);
     Rcpp::traits::input_parameter< std::string >::type real(realSEXP);
-    Rcpp::traits::input_parameter< std::string >::type bot_func(bot_funcSEXP);
+    Rcpp::traits::input_parameter< Function >::type bot_func(bot_funcSEXP);
     rcpp_result_gen = Rcpp::wrap(bot_connect_int(server, port, server_password, ssl, nick, user, real, bot_func));
     return rcpp_result_gen;
 END_RCPP
